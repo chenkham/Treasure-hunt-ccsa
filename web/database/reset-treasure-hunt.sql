@@ -1,0 +1,30 @@
+-- Deletes ALL treasure-hunt accounts, progress, results and event data.
+-- Back up first. Only this treasure-hunt database is selected.
+USE `u332237642_treasure_hunt`;
+SET FOREIGN_KEY_CHECKS=0;
+DROP TABLE IF EXISTS `hunt_life_events`;
+DROP TABLE IF EXISTS `hunt_actions`;
+DROP TABLE IF EXISTS `hunt_progress`;
+DROP TABLE IF EXISTS `hunt_commands`;
+DROP TABLE IF EXISTS `hunt_sessions`;
+DROP TABLE IF EXISTS `hunt_staff`;
+DROP TABLE IF EXISTS `hunt_admin_resets`;
+DROP TABLE IF EXISTS `hunt_rate_limits`;
+DROP TABLE IF EXISTS `hunt_audit`;
+DROP TABLE IF EXISTS `hunt_teams`;
+DROP TABLE IF EXISTS `hunt_admins`;
+DROP TABLE IF EXISTS `hunt_events`;
+SET FOREIGN_KEY_CHECKS=1;
+
+CREATE TABLE IF NOT EXISTS hunt_events (id INT PRIMARY KEY,data LONGTEXT NOT NULL,schema_version INT NOT NULL DEFAULT 2) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS hunt_admins (username VARCHAR(100) PRIMARY KEY,password VARCHAR(255) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS hunt_sessions (hash CHAR(64) PRIMARY KEY,subject VARCHAR(100) NOT NULL,kind VARCHAR(10) NOT NULL,expires BIGINT NOT NULL,INDEX session_subject(subject,kind),INDEX session_expiry(expires)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS hunt_teams (id CHAR(36) PRIMARY KEY,code VARCHAR(32) NOT NULL UNIQUE,name VARCHAR(100) NOT NULL,pin LONGTEXT NOT NULL,data LONGTEXT NOT NULL,device_id CHAR(36) NULL UNIQUE,public_fingerprint CHAR(64) NULL UNIQUE,lives_remaining INT NOT NULL DEFAULT 3,eliminated_at BIGINT NULL,elimination_reason VARCHAR(255) NULL,last_seen BIGINT NOT NULL DEFAULT 0,INDEX team_status(lives_remaining,eliminated_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS hunt_progress (team_id CHAR(36) NOT NULL,round_no INT NOT NULL,completed INT NOT NULL DEFAULT 0,score INT NOT NULL DEFAULT 0,status VARCHAR(24) NOT NULL,finished_at BIGINT NULL,data LONGTEXT NOT NULL,PRIMARY KEY(team_id,round_no),INDEX finish_order(round_no,status,finished_at),CONSTRAINT hunt_progress_team FOREIGN KEY(team_id) REFERENCES hunt_teams(id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS hunt_actions (id CHAR(36) PRIMARY KEY,team_id CHAR(36) NOT NULL,seq BIGINT NOT NULL,hash CHAR(64) NOT NULL,data LONGTEXT NOT NULL,result VARCHAR(40) NOT NULL,received BIGINT NOT NULL,UNIQUE KEY action_sequence(team_id,seq),INDEX action_result(team_id,result,seq),CONSTRAINT hunt_action_team FOREIGN KEY(team_id) REFERENCES hunt_teams(id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS hunt_life_events (action_id CHAR(36) PRIMARY KEY,team_id CHAR(36) NOT NULL,checkpoint_id VARCHAR(80) NOT NULL,before_lives INT NOT NULL,after_lives INT NOT NULL,at BIGINT NOT NULL,INDEX life_team(team_id,at),CONSTRAINT hunt_life_team FOREIGN KEY(team_id) REFERENCES hunt_teams(id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS hunt_audit (id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,at BIGINT NOT NULL,actor VARCHAR(100) NOT NULL,kind VARCHAR(80) NOT NULL,data LONGTEXT NOT NULL,INDEX audit_time(at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS hunt_commands (id CHAR(36) PRIMARY KEY,team_id CHAR(36) NOT NULL,data LONGTEXT NOT NULL,acknowledged BIGINT NULL,created_at BIGINT NOT NULL,INDEX command_team(team_id,acknowledged),CONSTRAINT hunt_command_team FOREIGN KEY(team_id) REFERENCES hunt_teams(id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS hunt_rate_limits (id CHAR(64) PRIMARY KEY,window_start BIGINT NOT NULL,attempts INT NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS hunt_admin_resets (username VARCHAR(100) PRIMARY KEY,nonce CHAR(64) NOT NULL,code_hash CHAR(64) NOT NULL,expires BIGINT NOT NULL,attempts INT NOT NULL,sent_at BIGINT NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS hunt_staff (username VARCHAR(100) PRIMARY KEY,role VARCHAR(20) NOT NULL,active INT NOT NULL DEFAULT 1,email VARCHAR(254) NOT NULL DEFAULT '') ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

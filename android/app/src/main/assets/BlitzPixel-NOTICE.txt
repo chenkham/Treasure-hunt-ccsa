@@ -1,0 +1,5 @@
+Blitz Pixel is a renamed subset of Press Start 2P, used for the game's English pixel headings.
+Copyright 2012 The Press Start 2P Project Authors (cody@zone38.net).
+The modified font's family and PostScript names have been changed to respect the reserved original name.
+The original SIL Open Font License remains in PressStart2P-OFL.txt.
+Riddles, team names and campus labels use Android's normal fonts and retain Unicode support.

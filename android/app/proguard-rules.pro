@@ -1,0 +1,3 @@
+-keep class com.campushunt.app.HuntAdminReceiver { *; }
+-keep class com.campushunt.app.HuntBootReceiver { *; }
+-keep class com.campushunt.app.SyncWorker { *; }

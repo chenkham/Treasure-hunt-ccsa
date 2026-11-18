@@ -1,0 +1,21 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const path=require('node:path');
+const source=fs.readFileSync(path.join(__dirname,'../dashboard/app.js'),'utf8');
+let shown;
+const context={esc:value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),modal:(title,html)=>{shown={title,html};}};
+vm.createContext(context);
+vm.runInContext(source.slice(source.indexOf('function teamCredentials('),source.indexOf('function download(')),context);
+context.teamCredentials({name:'Moon <runners>',code:'110406',enrollment_pin:'Test&"<code>'});
+assert.match(shown.html,/Moon &lt;runners&gt;/);
+assert.match(shown.html,/110406/);
+assert.match(shown.html,/Test&amp;&quot;&lt;code&gt;/);
+assert.doesNotMatch(shown.html,/offline|exit|Organizer/);
+context.teamCredentials({name:'Legacy',code:'OLD',enrollment_pin:null});
+assert.match(shown.html,/Check login/);
+assert.doesNotMatch(shown.html,/value="null"/);
+assert.match(source,/data-team-credentials=.*?Show login/);
+console.log('Team credential UI checks passed: exact fields, escaping, legacy hashes and no exit PIN.');
+
+assert.match(context.teamCredentialsCsv([{name:'=formula',code:'12345',enrollment_pin:'987654'}]),/"'=formula","12345","987654"/);

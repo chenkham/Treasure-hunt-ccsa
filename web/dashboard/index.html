@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Campus Hunt · Event control</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="game.css?v=20261030-map-print-21" />
+    <script src="atlas/proj4.js?v=20261030-map-print-21" defer></script>
+    <script src="atlas/gps-projection.js?v=20261030-map-print-21" defer></script>
+    <script src="atlas/map-labels.js?v=20261030-map-print-21" defer></script>
+    <script src="atlas.js?v=20261030-map-print-21" defer></script>
+    <script src="live-atlas.js?v=20261030-map-print-21" defer></script>
+    <script src="round-clock.js?v=20261030-map-print-21" defer></script>
+    <script src="app.js?v=20261030-map-print-21" defer></script>
+    <script src="access.js?v=20261030-map-print-21" defer></script>
+    <script src="staff.js?v=20261030-map-print-21" defer></script>
+    <script src="controls.js?v=20261030-map-print-21" defer></script>
+  </head>
+  <body>
+    <div id="login" class="login-page">
+      <div class="login-art">
+        <span class="eyebrow">CAMPUS HUNT / ORGANIZER</span>
+        <h1>A good hunt<br />starts here.</h1>
+        <img src="atlas/overview.png" alt="Reviewed Dibrugarh University campus atlas" />
+      </div>
+      <div class="login-card">
+        <span class="brand-mark">↗</span>
+      <form id="login-form">
+        <h2>Welcome back.</h2>
+        <p>Sign in to your event control room.</p>
+        <label
+          >Username<input
+            name="username"
+            value="Chenkham"
+            autocomplete="username"
+            required /></label
+        ><label
+          >Password<input
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required /></label
+        ><button class="primary" type="submit">
+          Open control room <span>→</span>
+        </button>
+        <p id="login-error" role="alert"></p>
+        <button id="forgot-password" type="button" class="link">Forgot password?</button>
+      </form>
+      <form id="recovery-form" hidden>
+        <h2>Reset password</h2>
+        <p id="recovery-intro">Receive a code at your recovery email.</p>
+        <label>Username<input name="username" value="Chenkham" autocomplete="username" required maxlength="80"></label>
+        <div id="recovery-code-fields" hidden>
+          <label>Email code<input name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code"></label>
+          <label>New password<input name="password" type="password" minlength="12" maxlength="200" autocomplete="new-password"></label>
+          <label>Confirm password<input name="confirm" type="password" minlength="12" maxlength="200" autocomplete="new-password"></label>
+        </div>
+        <button id="recovery-submit" class="primary" type="submit">Send code</button>
+        <p id="recovery-message" role="status" aria-live="polite"></p>
+        <div class="recovery-actions"><button id="back-to-login" class="link" type="button">Back to login</button><button id="resend-code" class="link" type="button" hidden>Resend code</button></div>
+      </form>
+      </div>
+    </div>
+    <div id="application" hidden>
+      <aside>
+        <a class="brand" href="./"
+          ><span class="brand-mark">↗</span> Campus Hunt</a
+        >
+        <div class="sidebar-label">EVENT WORKSPACE</div>
+        <nav aria-label="Dashboard sections">
+          <button data-tab="live" class="active">
+            ◉ <span>Live event</span></button
+          ><button data-tab="teams">♟ <span>Teams & devices</span></button
+          ><button data-tab="content">◇ <span>Riddles</span></button
+          ><button data-tab="map">⌖ <span>Team map</span></button
+          ><button data-tab="setup">⚙ <span>Event settings</span></button
+          ><button data-tab="audit">≡ <span>Evidence & audit</span></button
+          ><button data-tab="staff" hidden>♟ <span>Dashboard accounts</span></button
+          >
+        </nav>
+        <div class="sidebar-bottom">
+          <span class="connection-dot"></span
+          ><span id="connection">Connecting…</span
+          ><button id="logout" class="link">Sign out</button>
+        </div>
+      </aside>
+      <main>
+        <header>
+          <div>
+            <span class="eyebrow">DIBRUGARH UNIVERSITY · CAMPUS HUNT</span>
+            <h1 id="page-title">Live event</h1>
+          </div>
+          <div class="header-actions">
+            <span id="published" class="badge">Draft event</span
+            ><button id="refresh" class="secondary">↻ Refresh</button
+            ><a
+              class="button secondary"
+              href="leaderboard.html"
+              target="_blank"
+              rel="noopener"
+              >Projector ↗</a
+            >
+          </div>
+        </header>
+        <div id="notification" class="notification" role="status" hidden></div>
+        <div id="view"></div>
+      </main>
+    </div>
+    <dialog id="modal">
+      <form id="modal-form">
+        <div class="modal-head">
+          <h2 id="modal-title"></h2>
+          <button
+            type="button"
+            id="close-modal"
+            class="icon-button"
+            aria-label="Close dialog"
+          >
+            ×
+          </button>
+        </div>
+        <div id="modal-body"></div>
+        <div id="modal-error" role="alert"></div>
+        <div class="modal-actions">
+          <button type="button" id="cancel-modal" class="secondary">
+            Cancel</button
+          ><button type="submit" id="modal-submit" class="primary">Save</button>
+        </div>
+      </form>
+    </dialog>
+  </body>
+</html>

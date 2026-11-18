@@ -1,0 +1,8 @@
+{"name":"anazori/campus-hunt","description":"QR campus expedition API and admin panel","require":{
+        "php": ">=8.2",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "ext-pdo": "*",
+        "bacon/bacon-qr-code": "^3.0",
+        "phpmailer/phpmailer": "^7.1"
+    },"config":{"allow-plugins":false,"sort-packages":true},"license":"proprietary"}

@@ -1,0 +1,29 @@
+# Local credentials and environment configuration
+**/config.php
+**/.env
+**/.env.*
+!**/.env.example
+**/local.properties
+**/hunt-private/
+**/*.pem
+**/*.p12
+**/*.jks
+**/*.keystore
+**/password.txt
+**/ADMIN-LOGIN.txt
+
+# Build and test output
+**/.gradle/
+**/.kotlin/
+**/build/
+**/__pycache__/
+**/.pytest_cache/
+**/.venv/
+**/runtime/
+**/.test-tmp*/
+
+# Keep the explicitly released APK in releases/ only
+**/*.apk
+!releases/*.apk
+**/*.aab
+

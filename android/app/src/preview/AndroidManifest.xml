@@ -1,0 +1,13 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <application>
+        <activity android:name=".MainActivity" android:lockTaskMode="normal" tools:replace="android:lockTaskMode">
+            <intent-filter tools:node="remove">
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <receiver android:name=".HuntBootReceiver" tools:node="remove" />
+        <receiver android:name=".HuntAdminReceiver" tools:node="remove" />
+    </application>
+</manifest>

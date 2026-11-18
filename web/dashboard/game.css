@@ -1,0 +1,22 @@
+/* Expedition control room: local pixel lettering, quiet glass surfaces, readable operational data. */
+@font-face{font-family:QuestPixel;src:url("./PressStart2P-Regular.ttf") format("truetype");font-display:swap}
+:root{--green:#173d40;--olive:#b8f4db;--ink:#173c41;--muted:#577179;--paper:#edf5f2;--line:#ceded8}
+body{background:radial-gradient(ellipse at 90% 0,#ceeee8,transparent 60%),linear-gradient(140deg,#f5faf5,#dfebe8);background-attachment:fixed}
+.brand,.eyebrow,.sidebar-label{font-family:QuestPixel,monospace;line-height:1.7}
+.brand{font-size:12px}.eyebrow,.sidebar-label{font-size:9px}
+aside{background:linear-gradient(165deg,#102a35f5,#1b4d47f5);box-shadow:8px 0 40px #102c3714}
+.card,.metric,dialog{background:#ffffffb8;backdrop-filter:blur(14px);border:1px solid #ffffffd9;box-shadow:0 8px 30px #123a3110}
+.card.highlight,.login-art{background:linear-gradient(145deg,#173c46,#23594d);color:#f2fff9}
+.login-card{background:#ffffff20;border:1px solid #ffffffb0;border-radius:24px;backdrop-filter:blur(12px);padding:38px}
+button.primary,.button.primary{background:#20574b;color:#f3fff9;box-shadow:0 4px 0 #102f33}
+button.secondary{background:#ffffff80;border:1px solid #bbd8ce}
+input,select,textarea{background:#ffffff80}
+.map-wrap{box-shadow:inset 0 0 22px #d9eee5}.map-help{backdrop-filter:blur(12px)}
+nav{scrollbar-width:none}nav::-webkit-scrollbar{display:none}
+
+.geographic-map{display:block;width:100%;height:500px;border-radius:16px;touch-action:none}.atlas-tools{display:flex;gap:8px;margin:0 0 12px}#live-map-card{margin:0 0 22px}#live-map-card[hidden]{display:none}#map-canvas{touch-action:none}@media(max-width:700px){.geographic-map{height:380px}}
+/* Event control and projector */
+.recovery-actions{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:20px}#recovery-message{font-size:14px;line-height:1.6}#account-card{max-width:700px}#smtp-fields{padding:4px 16px;border:1px solid var(--line);border-radius:12px}.login-card{margin:24px;max-width:min(440px,calc(100% - 48px))}
+.round-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px}.round-grid .card{margin:0}.round-grid fieldset{min-width:0;border:1px solid var(--line);border-radius:14px;padding:16px}.round-grid legend{font-weight:700;padding:0 7px}.solved-list{max-width:340px;white-space:normal}.solved-list span{display:inline-block;margin:3px;padding:5px 9px;border-radius:9px;background:#c8a6ff20;font-size:12px}.projector h1{font-size:clamp(28px,4vw,54px)}.projector table{font-size:clamp(16px,1.5vw,26px)}.projector .solved-list{max-width:600px}.projector .solved-list span{font-size:.7em}.projector .winner-row{background:#c8a6ff25}.projector-header{display:flex;justify-content:space-between;gap:16px;align-items:center}.projector-actions{display:flex;gap:10px;align-items:center}.projector button{min-width:44px}.projector-meta{display:flex;gap:18px;font-size:20px}.projector [data-live-state=offline]{color:#bd6c56}@media(max-width:1000px){.round-grid{grid-template-columns:1fr}.projector{padding:16px}}
+
+.round-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.round-clock{font-size:clamp(24px,3vw,42px);margin:12px 0}.start-blockers{font-size:14px;line-height:1.5;padding-left:18px;color:#9d4533}.start-ready{color:#20574b;font-weight:700}.settings-summary{display:flex;flex-wrap:wrap;gap:12px 28px;margin:12px 0 20px}details{margin-top:18px}summary{cursor:pointer;font-weight:600}
